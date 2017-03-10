@@ -31,20 +31,7 @@
 			</div>
 		</div>
 
-		<div class="form-group form-group-sm">
-			<?php echo form_label($this->lang->line('items_category'), 'category', array('class'=>'required control-label col-xs-3')); ?>
-			<div class='col-xs-8'>
-				<div class="input-group">
-					<span class="input-group-addon input-sm"><span class="glyphicon glyphicon-tag"></span></span>
-					<?php echo form_input(array(
-							'name'=>'category',
-							'id'=>'category',
-							'class'=>'form-control input-sm',
-							'value'=>$item_info->category)
-							);?>
-				</div>
-			</div>
-		</div>
+		
 
 		<?php if ($item_kits_enabled == '1'): ?>
 		<div class="form-group form-group-sm">
@@ -102,7 +89,18 @@
 				<?php echo form_dropdown('supplier_id', $suppliers, $selected_supplier, array('class'=>'form-control')); ?>
 			</div>
 		</div>
-
+            <div class="form-group form-group-sm">
+			<?php echo form_label('Category', 'category_id', array('class'=>'control-label col-xs-3')); ?>
+			<div class='col-xs-8'>
+				<?php echo form_dropdown('category_id', $categories_list, $selected_category, array('id'=>'category_id', 'class'=>'form-control')); ?>
+			</div>
+		</div>
+<?php echo form_input(array(
+						'name'=>'category',
+						'id'=>'category',
+						'type'=>'hidden',
+						'value'=>'Unishop')
+						);?>
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_cost_price'), 'cost_price', array('class'=>'required control-label col-xs-3')); ?>
 			<div class="col-xs-4">

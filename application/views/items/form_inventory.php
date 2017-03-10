@@ -32,7 +32,7 @@
 						); ?>
 			</div>
 		</div>
-
+<?php /*
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_category'), 'category', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-8'>
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-
+*/ ?>
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_stock_location'), 'stock_location', array('class'=>'control-label col-xs-3')); ?>
 			<div class='col-xs-8'>

@@ -42,6 +42,7 @@ $lang["items_is_deleted"] = "Deleted";
 $lang["items_is_serialized"] = "Item has Serial Number";
 $lang["items_item"] = "Item";
 $lang["items_item_number"] = "UPC/EAN/ISBN";
+$lang["items_item_category_name"] = "Category Name";
 $lang["items_item_number_duplicate"] = "The item number is already present in the database";
 $lang["items_kit"] = "Kit";
 $lang["items_location"] = "Location";

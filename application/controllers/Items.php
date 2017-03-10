@@ -232,6 +232,9 @@ class Items extends Secure_Controller
 			$location_array[$location['location_id']] = array('location_name' => $location['location_name'], 'quantity' => $quantity);
 			$data['stock_locations'] = $location_array;
 		}
+                
+                $data['categories_list'] = $this->Category->get_categories(-1);
+                $data['selected_category'] = $item_info->category_id;
 
 		$this->load->view('items/form', $data);
 	}
@@ -349,6 +352,7 @@ class Items extends Secure_Controller
 			'name' => $this->input->post('name'),
 			'description' => $this->input->post('description'),
 			'category' => $this->input->post('category'),
+			'category_id' => $this->input->post('category_id'),
 			'item_type' => $this->input->post('item_type'),
 			'stock_type' => $this->input->post('stock_type'),
 			'supplier_id' => $this->input->post('supplier_id') == '' ? NULL : $this->input->post('supplier_id'),

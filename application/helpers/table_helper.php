@@ -242,7 +242,8 @@ function get_items_manage_table_headers()
 		array('items.item_id' => $CI->lang->line('common_id')),
 		array('item_number' => $CI->lang->line('items_item_number')),
 		array('name' => $CI->lang->line('items_name')),
-		array('category' => $CI->lang->line('items_category')),
+		//array('category' => $CI->lang->line('items_category')),
+		array('category_name' => $CI->lang->line('items_item_category_name')),
 		array('company_name' => $CI->lang->line('suppliers_company_name')),
 		array('cost_price' => $CI->lang->line('items_cost_price')),
 		array('unit_price' => $CI->lang->line('items_unit_price')),
@@ -296,6 +297,7 @@ function get_item_data_row($item, $controller)
 		'name' => $item->name,
 		'category' => $item->category,
 		'company_name' => $item->company_name,
+		'category_name' => $item->category_name,
 		'cost_price' => to_currency($item->cost_price),
 		'unit_price' => to_currency($item->unit_price),
 		'quantity' => to_quantity_decimals($item->quantity),
@@ -327,6 +329,23 @@ function get_giftcards_manage_table_headers()
 	return transform_headers($headers);
 }
 
+function get_categories_manage_table_headers()
+{
+	$CI =& get_instance();
+
+	$headers = array(
+		array('category_id' => $CI->lang->line('common_id')),
+		array('name' => $CI->lang->line('common_name')),
+		array('parent_name' => $CI->lang->line('common_parent')),
+	);
+
+	return transform_headers($headers);
+}
+
+function dd($data){
+    echo '<pre>'; print_r($data); echo '</pre>'; die;
+}
+
 function get_giftcard_data_row($giftcard, $controller)
 {
 	$CI =& get_instance();
@@ -339,6 +358,20 @@ function get_giftcard_data_row($giftcard, $controller)
 		'giftcard_number' => $giftcard->giftcard_number,
 		'value' => to_currency($giftcard->value),
 		'edit' => anchor($controller_name."/view/$giftcard->giftcard_id", '<span class="glyphicon glyphicon-edit"></span>',
+			array('class'=>'modal-dlg', 'data-btn-submit' => $CI->lang->line('common_submit'), 'title'=>$CI->lang->line($controller_name.'_update'))
+		));
+}
+
+function get_category_data_row($category, $controller)
+{
+	$CI =& get_instance();
+	$controller_name=strtolower(get_class($CI));
+
+	return array (
+		'category_id' => $category->category_id,
+		'name' => $category->name,
+		'parent_name' => !empty($category->parent_name) ? $category->parent_name : '---',
+		'edit' => anchor($controller_name."/view/$category->category_id", '<span class="glyphicon glyphicon-edit"></span>',
 			array('class'=>'modal-dlg', 'data-btn-submit' => $CI->lang->line('common_submit'), 'title'=>$CI->lang->line($controller_name.'_update'))
 		));
 }

@@ -62,6 +62,7 @@ class Item extends CI_Model
 	{
 		$this->db->select('MAX(items.name) as name');
 		$this->db->select('MAX(items.category) as category');
+		$this->db->select('MAX(items.category_id)');
 		$this->db->select('MAX(items.supplier_id) as supplier_id');
 		$this->db->select('MAX(items.item_number) as item_number');
 		$this->db->select('MAX(items.description) as description');
@@ -90,6 +91,8 @@ class Item extends CI_Model
 		$this->db->select('MAX(suppliers.agency_name) as agency_name');
 		$this->db->select('MAX(suppliers.account_number) as account_number');
 		$this->db->select('MAX(suppliers.deleted) as deleted');
+                
+		$this->db->select('MAX(categories.name) as category_name');
 
 		$this->db->select('MAX(inventory.trans_id) as trans_id');
 		$this->db->select('MAX(inventory.trans_items) as trans_items');
@@ -108,6 +111,7 @@ class Item extends CI_Model
 
 		$this->db->from('items as items');
 		$this->db->join('suppliers as suppliers', 'suppliers.person_id = items.supplier_id', 'left');
+		$this->db->join('item_categories as categories', 'categories.category_id = items.category_id', 'left');
 		$this->db->join('inventory as inventory', 'inventory.trans_items = items.item_id');
 
 		if($filters['stock_location_id'] > -1)
@@ -130,11 +134,11 @@ class Item extends CI_Model
 			if($filters['search_custom'] == FALSE)
 			{
 				$this->db->group_start();
-					$this->db->like('name', $search);
-					$this->db->or_like('item_number', $search);
+					$this->db->like('items.name', $search);
+					$this->db->or_like('items.item_number', $search);
 					$this->db->or_like('items.item_id', $search);
 					$this->db->or_like('company_name', $search);
-					$this->db->or_like('category', $search);
+					$this->db->or_like('items.category', $search);
 				$this->db->group_end();
 			}
 			else
