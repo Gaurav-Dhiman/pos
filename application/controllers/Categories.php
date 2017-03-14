@@ -48,10 +48,11 @@ class Categories extends Secure_Controller{
 
 		$data['selected_name'] = ($category_id > 0 && isset($category_info->category_id)) ? $category_info->name : '';
                 $data['selected_parent_id'] = ($category_id > 0 && isset($category_info->parent_id)) ? $category_info->parent_id : '';
+                $data['selected_parent_name'] = ($category_id > 0 && isset($category_info->parent_name)) ? $category_info->parent_name : '';
                 
 		$data['category_id'] = $category_id;
                 
-                $data['categories_list'] = [''=>'None'] + $this->Category->get_categories($category_id);
+             //   $data['categories_list'] = [''=>'None'] + $this->Category->get_categories($category_id);
 
 		$data = $this->xss_clean($data);
 

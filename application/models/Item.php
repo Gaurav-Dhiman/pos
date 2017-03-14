@@ -223,10 +223,11 @@ class Item extends CI_Model
 	*/
 	public function get_info($item_id)
 	{
-		$this->db->select('items.*');
+		$this->db->select('items.*, categories.name as category_name');
 		$this->db->select('suppliers.company_name');
 		$this->db->from('items');
 		$this->db->join('suppliers', 'suppliers.person_id = items.supplier_id', 'left');
+		$this->db->join('item_categories as categories', 'categories.category_id = items.category_id', 'left');
 		$this->db->where('item_id', $item_id);
 
 		$query = $this->db->get();
@@ -245,7 +246,7 @@ class Item extends CI_Model
 			{
 				$item_obj->$field = '';
 			}
-
+                                $item_obj->category_name='';
 			return $item_obj;
 		}
 	}
@@ -600,18 +601,23 @@ class Item extends CI_Model
 		return $suggestions;
 	}
 
-	public function get_category_suggestions($search)
+	public function get_category_suggestions($search, $exclude=null)
 	{
-		$suggestions = array();
-		$this->db->distinct();
-		$this->db->select('category');
-		$this->db->from('items');
-		$this->db->like('category', $search);
+                $suggestions = array();
+                $this->db->select('category_id, name');
+		$this->db->from('item_categories');
 		$this->db->where('deleted', 0);
-		$this->db->order_by('category', 'asc');
+                
+                if(!empty($exclude)){
+                   $this->db->where('category_id !=', $exclude); 
+                }
+		
+                $this->db->distinct();
+		$this->db->like('name', $search);
+		$this->db->order_by('name', 'asc');
 		foreach($this->db->get()->result() as $row)
 		{
-			$suggestions[] = array('label' => $row->category);
+			$suggestions[] = array('label' => $row->name, 'category_id' => $row->category_id);
 		}
 
 		return $suggestions;

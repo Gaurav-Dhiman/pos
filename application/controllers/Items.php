@@ -135,9 +135,9 @@ class Items extends Secure_Controller
 	/*
 	Gives search suggestions based on what is being searched for
 	*/
-	public function suggest_category()
+	public function suggest_category($exclude=null)
 	{
-		$suggestions = $this->xss_clean($this->Item->get_category_suggestions($this->input->get('term')));
+		$suggestions = $this->xss_clean($this->Item->get_category_suggestions($this->input->get('term'), $exclude));
 
 		echo json_encode($suggestions);
 	}
@@ -233,8 +233,9 @@ class Items extends Secure_Controller
 			$data['stock_locations'] = $location_array;
 		}
                 
-                $data['categories_list'] = $this->Category->get_categories(-1);
+              //  $data['categories_list'] = $this->Category->get_categories(-1);
                 $data['selected_category'] = $item_info->category_id;
+                $data['selected_category_name'] = $item_info->category_name;
 
 		$this->load->view('items/form', $data);
 	}

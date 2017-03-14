@@ -19,10 +19,14 @@
 		</div>
             <div class="form-group form-group-sm">
             <?php echo form_label('Parent', 'parent_id', array('class'=>'control-label col-xs-3')); ?>
-			<div class='col-xs-4'>
+                <div class='col-xs-8'>
+		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>!empty($selected_parent_name) ? $selected_parent_name : 'None', 'placeholder'=>'None'));?>
+		</div>
+                <?php echo form_input(array('name'=>'parent_id', 'id'=>'parent_id', 'type'=>'hidden', 'value'=>$selected_parent_id)); ?>
+<!--			<div class='col-xs-4'>
                             
-                            <?php echo form_dropdown('parent_id', $categories_list, $selected_parent_id, array('id'=>'parent_id', 'class'=>'form-control')); ?>
-			</div>
+                            < ?php echo form_dropdown('parent_id', $categories_list, $selected_parent_id, array('id'=>'parent_id', 'class'=>'form-control')); ?>
+			</div>-->
             </div>    
                 
 	</fieldset>
@@ -37,6 +41,35 @@ $(document).ready(function()
 			$("input[name='category_id']").val('');
 		}
 	});
+        
+        $("#category_name").autocomplete({
+                                source:function (request, response) {
+					$.ajax({
+						url: "<?php echo site_url('items/suggest_category/'.$category_id);?>",
+						dataType: "json",
+                                                data: { term: $("#category_name").val() },
+						success: function(data) {
+							response($.map(data, function(item) {
+								return {
+									label: item.label,
+									value: item.category_id,
+								};
+							}))
+						}
+					});
+				},
+                                
+                                select: function (event, ui) {
+                                    var v = ui.item.value;
+                                     $('#parent_id').val(v);
+                                    // update what is displayed in the textbox
+                                    this.value = ui.item.label; 
+                                    return false;
+                                },
+                                
+                                //source: "< ?php echo site_url('items/suggest_category');?>",
+                                delay:10,
+                                appendTo: '.modal-content'});
 	
 	var fill_value = function(event, ui) {
 		event.preventDefault();

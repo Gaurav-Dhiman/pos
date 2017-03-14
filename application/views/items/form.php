@@ -90,17 +90,18 @@
 			</div>
 		</div>
             <div class="form-group form-group-sm">
-			<?php echo form_label('Category', 'category_id', array('class'=>'control-label col-xs-3')); ?>
-			<div class='col-xs-8'>
-				<?php echo form_dropdown('category_id', $categories_list, $selected_category, array('id'=>'category_id', 'class'=>'form-control')); ?>
-			</div>
+			<?php echo form_label('Category', 'category_id', array('class'=>'required control-label col-xs-3')); ?>
+<!--			<div class='col-xs-8'>
+				< ?php echo form_dropdown('category_id', $categories_list, $selected_category, array('id'=>'category_id', 'class'=>'form-control')); ?>
+			</div>-->
+                <div class='col-xs-8'>
+		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>$selected_category_name));?>
 		</div>
-<?php echo form_input(array(
-						'name'=>'category',
-						'id'=>'category',
-						'type'=>'hidden',
-						'value'=>'Unishop')
-						);?>
+	    </div>
+            
+<?php echo form_input(array('name'=>'category', 'id'=>'category', 'type'=>'hidden', 'value'=>'Unishop')); ?>
+<?php echo form_input(array('name'=>'category_id', 'id'=>'category_id', 'type'=>'hidden', 'value'=>$selected_category)); ?>
+            
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_cost_price'), 'cost_price', array('class'=>'required control-label col-xs-3')); ?>
 			<div class="col-xs-4">
@@ -341,7 +342,34 @@
 		});
 
 		var no_op = function(event, data, formatted){};
-		$("#category").autocomplete({source: "<?php echo site_url('items/suggest_category');?>",delay:10,appendTo: '.modal-content'});
+		$("#category_name").autocomplete({
+                                source:function (request, response) {
+					$.ajax({
+						url: "<?php echo site_url('items/suggest_category');?>",
+						dataType: "json",
+                                                data: { term: $("#category_name").val() },
+						success: function(data) {
+							response($.map(data, function(item) {
+								return {
+									label: item.label,
+									value: item.category_id,
+								};
+							}))
+						}
+					});
+				},
+                                
+                                select: function (event, ui) {
+                                    var v = ui.item.value;
+                                     $('#category_id').val(v);
+                                    // update what is displayed in the textbox
+                                    this.value = ui.item.label; 
+                                    return false;
+                                },
+                                
+                                //source: "< ?php echo site_url('items/suggest_category');?>",
+                                delay:10,
+                                appendTo: '.modal-content'});
 
 		<?php for ($i = 1; $i <= 10; ++$i)
 		{
@@ -377,6 +405,7 @@
 		});
 
 		$('#item_form').validate($.extend({
+                        ignore: "", 
 			submitHandler: function(form, event) {
 				$(form).ajaxSubmit({
 					success: function(response) {
@@ -405,6 +434,7 @@
 			{
 				name:"required",
 				category:"required",
+				category_id:"required",
 				item_number:
 				{
 					required: false,
@@ -466,6 +496,7 @@
 				name:"<?php echo $this->lang->line('items_name_required'); ?>",
 				item_number: "<?php echo $this->lang->line('items_item_number_duplicate'); ?>",
 				category:"<?php echo $this->lang->line('items_category_required'); ?>",
+				category_id:"<?php echo $this->lang->line('items_category_id_required'); ?>",
 				cost_price:
 				{
 					required:"<?php echo $this->lang->line('items_cost_price_required'); ?>",
