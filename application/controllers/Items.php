@@ -649,6 +649,11 @@ class Items extends Secure_Controller
 					$resdata[] = $this->xss_clean($itemdata);
 					$chkcategory  = $this->Item->check_category($itemdata[2]);
 					$chkduplicate = $this->Item->item_number_exists($itemdata[0]);
+					if(empty($itemdata[0]))
+					{
+						$chk['inumber']['ids'][] = $i;
+						$chk['inumber']['msg']   = 'items_itemnumber_required';
+					}
 					if($chkduplicate == 1)
 					{
 						$chk['number']['ids'][] = $i;

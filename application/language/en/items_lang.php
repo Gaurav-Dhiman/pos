@@ -104,4 +104,4 @@ $lang["unit_price_numeric"] = "Unit price mismatch at rows: ";
 $lang["items_itemname_required"] = "item Name is required at rows: ";
 $lang["items_itemcategory_required"] = "Category Id is required at rows: ";
 $lang["item_duplicate_number"] = "Duplicate UPC/EAN/ISBN at rows: ";
-
+$lang["items_itemnumber_required"] = "UPC/EAN/ISBN  is required at rows: ";
