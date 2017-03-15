@@ -5,7 +5,7 @@
 <?php echo form_open('items/save/'.$item_info->item_id, array('id'=>'item_form', 'enctype'=>'multipart/form-data', 'class'=>'form-horizontal')); ?>
 	<fieldset id="item_basic_info">
 		<div class="form-group form-group-sm">
-			<?php echo form_label($this->lang->line('items_item_number'), 'item_number', array('class'=>'control-label col-xs-3')); ?>
+			<?php echo form_label($this->lang->line('items_item_number'), 'item_number', array('class'=>'required control-label col-xs-3')); ?>
 			<div class='col-xs-8'>
 				<div class="input-group">
 					<span class="input-group-addon input-sm"><span class="glyphicon glyphicon-barcode"></span></span>
@@ -437,7 +437,7 @@
 				category_id:"required",
 				item_number:
 				{
-					required: false,
+					required: true,
 					remote:
 					{
 						url: "<?php echo site_url($controller_name . '/check_item_number')?>",
@@ -494,7 +494,10 @@
 			messages:
 			{
 				name:"<?php echo $this->lang->line('items_name_required'); ?>",
-				item_number: "<?php echo $this->lang->line('items_item_number_duplicate'); ?>",
+				item_number: {
+                                    required : "<?php echo $this->lang->line('items_number_required'); ?>",
+                                    remote : "<?php echo $this->lang->line('items_item_number_duplicate'); ?>",
+                                },
 				category:"<?php echo $this->lang->line('items_category_required'); ?>",
 				category_id:"<?php echo $this->lang->line('items_category_id_required'); ?>",
 				cost_price:
