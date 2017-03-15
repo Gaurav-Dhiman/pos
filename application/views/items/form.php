@@ -37,7 +37,7 @@
 		{
 		?>
 			<?php
-			if($this->config->item('custom'.$i.'_name') != null)
+			if($this->config->item('custom'.$i.'_name') != null && $i != 2 && $i != 3)
 			{
 				$item_arr = (array)$item_info;
 			?>
@@ -215,8 +215,10 @@
 		</div>
 
 		<?php
+                $count = 0;
 		foreach($stock_locations as $key=>$location_detail)
-		{
+		{ 
+                    $count++;
 		?>
 			<div class="form-group form-group-sm">
 				<?php echo form_label($this->lang->line('items_quantity').' '.$location_detail['location_name'], 'quantity_' . $key, array('class'=>'required control-label col-xs-3')); ?>
@@ -228,11 +230,19 @@
 							'value'=>isset($item_info->item_id) ? to_quantity_decimals($location_detail['quantity']) : to_quantity_decimals(0))
 							);?>
 				</div>
+                                
+                                <?php if($count==1){ ?>
+                                    <?php if($this->config->item('custom3_name') != null){ ?>
+                                        <div class='col-xs-4'>
+                                            <?php echo form_dropdown('custom3', $this->lang->line('items_units'), '', array('class'=>'form-control')); ?>
+                                        </div>
+                                    <?php  } ?>
+                                <?php } ?>
 			</div>
 		<?php
 		}
 		?>
-
+            
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_receiving_quantity'), 'receiving_quantity', array('class'=>'required control-label col-xs-3')); ?>
 			<div class='col-xs-4'>
@@ -243,6 +253,12 @@
 						'value'=>isset($item_info->item_id) ? to_quantity_decimals($item_info->receiving_quantity) : to_quantity_decimals(0))
 						);?>
 			</div>
+                    <?php if($this->config->item('custom2_name') != null){ ?>
+			<div class='col-xs-4'>
+				<?php echo form_dropdown('custom2', $this->lang->line('items_units'), '', array('class'=>'form-control')); ?>
+			</div>
+                      <?php  } ?>
+                    
 		</div>
 
 		<div class="form-group form-group-sm">
