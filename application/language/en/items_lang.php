@@ -105,5 +105,8 @@ $lang["items_itemname_required"] = "item Name is required at rows: ";
 $lang["items_itemcategory_required"] = "Category Id is required at rows: ";
 $lang["item_duplicate_number"] = "Duplicate UPC/EAN/ISBN at rows: ";
 $lang["items_itemnumber_required"] = "UPC/EAN/ISBN  is required at rows: ";
-
 $lang["items_units"] = ['' => 'Other', 'PACKS' => 'Packs', 'GRAMS' => 'G', 'MILILITRES' => 'ML'];
+$lang["tax1_numeric"] = "Tax 1 mismatch at rows: ";
+$lang["tax2_numeric"] = "Tax 2 mismatch at rows: ";
+$lang["custom2_mismatch"] = "Unit of product(custom2) mismatch at rows: ";
+$lang["custom3_mismatch"] = "Unit of product(custom3) mismatch at rows: ";
