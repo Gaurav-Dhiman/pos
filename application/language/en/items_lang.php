@@ -98,3 +98,10 @@ $lang["items_import_items_excel"] = "Import items from Excel sheet";
 $lang["items_select_image"] = "Select Image";
 $lang["items_change_image"] = "Change Image";
 $lang["items_remove_image"] = "Remove Image";
+$lang["items_category_not_exists"] = "Category ID mismatch at rows: ";
+$lang["cost_price_numeric"] = "Cost price mismatch at rows: ";
+$lang["unit_price_numeric"] = "Unit price mismatch at rows: ";
+$lang["items_itemname_required"] = "item Name is required at rows: ";
+$lang["items_itemcategory_required"] = "Category Id is required at rows: ";
+$lang["item_duplicate_number"] = "Duplicate UPC/EAN/ISBN at rows: ";
+

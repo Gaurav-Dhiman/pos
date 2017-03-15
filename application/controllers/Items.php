@@ -640,11 +640,73 @@ class Items extends Secure_Controller
 				$i = 1;
 				
 				$failCodes = array();
-		
-				while(($data = fgetcsv($handle)) !== FALSE)
+				$resdata = array();
+				$check   = 0;
+				$chk = array();
+				
+				while(($itemdata = fgetcsv($handle)) !== FALSE)
 				{
+					$resdata[] = $this->xss_clean($itemdata);
+					$chkcategory  = $this->Item->check_category($itemdata[2]);
+					$chkduplicate = $this->Item->item_number_exists($itemdata[0]);
+					if($chkduplicate == 1)
+					{
+						$chk['number']['ids'][] = $i;
+						$chk['number']['msg']   = 'item_duplicate_number';	
+					}	
+					if(empty($itemdata[1]))
+					{
+						$chk['name']['ids'][] = $i;
+						$chk['name']['msg']   = 'items_itemname_required';
+					}
+					if(empty($itemdata[2]))
+					{
+						$chk['category_id']['ids'][] = $i;
+						$chk['category_id']['msg']   = 'items_itemcategory_required';
+					}
+					if($chkcategory < 1)
+					{
+						$chk['category']['ids'][] = $i;
+						$chk['category']['msg']   = 'items_category_not_exists';
+					}
+					if(!is_numeric($itemdata[4]))
+					{
+						$chk['cost']['ids'][] = $i;
+						$chk['cost']['msg']   = 'cost_price_numeric';
+					}
+					if(!is_numeric($itemdata[5]))
+					{
+						$chk['unit']['ids'][] = $i;
+						$chk['unit']['msg']   = 'unit_price_numeric';
+					}
+					if(!empty($itemdata[7]) && !is_numeric($itemdata[7]))
+					{
+						$chk['tax1']['ids'][] = $i;
+						$chk['tax1']['msg']   = 'tax1_numeric';	 
+					}
+					if(!empty($itemdata[9]) && !is_numeric($itemdata[9]))
+					{
+						$chk['tax2']['ids'][] = $i;
+						$chk['tax2']['msg']   = 'tax2_numeric';
+					}
+					$i++;
+				}
+				if(!empty($chk))
+				{
+					$msg = array();
+					foreach ($chk as $key => $value) {
+						if(!empty($value['ids']))
+						{	
+							$msg[] = $this->lang->line($value['msg']).implode(",",$value['ids']);
+						}
+					}
+					echo json_encode(array('success' => FALSE, 'message' => implode("<br>",$msg)));
+					exit;
+				}
+				foreach ($resdata as $data) {
+				
 					// XSS file data sanity check
-					$data = $this->xss_clean($data);
+					//$data = $this->xss_clean($data);
 					
 					/* haven't touched this so old templates will work, or so I guess... */
 					if(sizeof($data) >= 23)
@@ -652,7 +714,8 @@ class Items extends Secure_Controller
 						$item_data = array(
 							'name'					=> $data[1],
 							'description'			=> $data[11],
-							'category'				=> $data[2],
+							'category'				=> "Unishop",
+							'category_id'			=> $data[2],
 							'cost_price'			=> $data[4],
 							'unit_price'			=> $data[5],
 							'reorder_level'			=> $data[10],

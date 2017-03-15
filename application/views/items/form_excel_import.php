@@ -30,7 +30,14 @@ $(document).ready(function()
 				success:function(response)
 				{
 					dialog_support.hide();
-					$.notify(response.message, { type: response.success ? 'success' : 'danger'} );
+					if(response.success == false)
+					{	
+						$.notify(response.message, { timer:'',type: response.success ? 'success' : 'danger'} );
+					}
+					else
+					{	
+						$.notify(response.message, { type: response.success ? 'success' : 'danger'} );
+					}	
 				},
 				dataType: 'json'
 			});

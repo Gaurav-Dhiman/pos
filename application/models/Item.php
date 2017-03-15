@@ -703,5 +703,17 @@ class Item extends CI_Model
 
 		return $this->save($data, $item_id);
 	}
+	/*
+	 * Check Category exists or not
+	 */
+	public function check_category($id)
+	{
+		$this->db->select('category_id');
+		$this->db->from('item_categories');
+		$this->db->where('category_id', $id);
+		$query 		= $this->db->get();
+		$rowcount 	= $query->num_rows();
+		return $rowcount;
+	}
 }
 ?>
