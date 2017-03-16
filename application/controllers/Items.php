@@ -701,13 +701,13 @@ class Items extends Secure_Controller
 						$chk['tax2']['ids'][] = $i+1;
 						$chk['tax2']['msg']   = 'tax2_numeric';
 					}
-					if (!array_key_exists($itemdata[15],$this->lang->line('items_units'))) {
-					    $chk['custom2']['ids'][] = $i+1;
-						$chk['custom2']['msg']   = 'custom2_mismatch';
+					if (!is_numeric($itemdata[15])) {
+					    $chk['emptycustom2']['ids'][] = $i+1;
+						$chk['emptycustom2']['msg']   = 'measurement_mismatch';
 					}
 					if (!array_key_exists($itemdata[16],$this->lang->line('items_units'))) {
 					    $chk['custom3']['ids'][] = $i+1;
-						$chk['custom3']['msg']   = 'custom3_mismatch';
+						$chk['custom3']['msg']   = 'itemunit_mismatch';
 					}
 					array_push($item_number, $itemdata[0]);
 					$i++;

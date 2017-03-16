@@ -2,7 +2,7 @@
 
 <ul id="error_message_box" class="error_message_box"></ul>
 
-<?php echo form_open('items/save/'.$item_info->item_id, array('id'=>'item_form', 'enctype'=>'multipart/form-data', 'class'=>'form-horizontal')); ?>
+<?php echo form_open('items/save/'.$item_info->item_id, array('id'=>'item_form','name'=>'item_form', 'enctype'=>'multipart/form-data', 'class'=>'form-horizontal')); ?>
 	<fieldset id="item_basic_info">
 		<div class="form-group form-group-sm">
 			<?php echo form_label($this->lang->line('items_item_number'), 'item_number', array('class'=>'required control-label col-xs-3')); ?>
@@ -213,28 +213,12 @@
 				</div>
 			</div>
 		</div>
-                
-                <div class="form-group form-group-sm">
-			<?php echo form_label($this->lang->line('measurement'), 'custom2', array('class'=>'required control-label col-xs-3')); ?>
-			<div class='col-xs-4'>
-				<?php echo form_input(array(
-						'name'=>'custom2',
-						'id'=>'custom2',
-						'class'=>'required form-control input-sm',
-						'value'=>isset($item_info->custom2) ? to_quantity_decimals($item_info->custom2) : to_quantity_decimals(0))
-						);?>
-			</div>
-                    <?php if($this->config->item('custom3_name') != null){ ?>
-			<div class='col-xs-4'>
-				<?php echo form_dropdown('custom3', $this->lang->line('items_units'), isset($item_info->custom3) ? $item_info->custom3 : '', array('class'=>'form-control')); ?>
-			</div>
-                      <?php  } ?>
-                    
-		</div>
 
 		<?php
+                $count = 0;
 		foreach($stock_locations as $key=>$location_detail)
 		{ 
+                    $count++;
 		?>
 			<div class="form-group form-group-sm">
 				<?php echo form_label($this->lang->line('items_quantity').' '.$location_detail['location_name'], 'quantity_' . $key, array('class'=>'required control-label col-xs-3')); ?>
@@ -246,6 +230,14 @@
 							'value'=>isset($item_info->item_id) ? to_quantity_decimals($location_detail['quantity']) : to_quantity_decimals(0))
 							);?>
 				</div>
+                                
+                                <?php if($count==1){ ?>
+                                    <?php if($this->config->item('custom3_name') != null){ ?>
+                                        <div class='col-xs-4'>
+                                            <?php echo form_dropdown('custom3', $this->lang->line('items_units'), '', array('class'=>'form-control')); ?>
+                                        </div>
+                                    <?php  } ?>
+                                <?php } ?>
 			</div>
 		<?php
 		}
@@ -261,6 +253,12 @@
 						'value'=>isset($item_info->item_id) ? to_quantity_decimals($item_info->receiving_quantity) : to_quantity_decimals(0))
 						);?>
 			</div>
+                    <?php if($this->config->item('custom2_name') != null){ ?>
+			<div class='col-xs-4'>
+				<?php echo form_dropdown('custom2', $this->lang->line('items_units'), '', array('class'=>'form-control')); ?>
+			</div>
+                      <?php  } ?>
+                    
 		</div>
 
 		<div class="form-group form-group-sm">
@@ -347,29 +345,33 @@
 
 		
 	</fieldset>
-<?php echo form_close(); ?>
 
+<?php echo form_close(); ?>
 <script type="text/javascript">
 	//validation and submit handling
 	$(document).ready(function()
 	{
-                $("input[name=name]").change(function () {
-                    var name = $("input[name=name]").val();
-                    var arr = name.split(' ');
-                    var short = '';
-                    if(arr[0] && arr[0] !=''){
-                        short = arr[0];
-                    }else{
-                        return false;
-                    }
-                    var last = arr[arr.length-1];
-                    if(arr.length != 1 && last && last !=''){
-                        short = short + ' ' + last;
-                    }
-                    if(short !=''){
-                        $("input[name=custom1]").val(short);
-                    }
-                });
+        setTimeout(function() { 
+            $("#item_number").focus();
+        }, 500);
+
+        $("input[name=name]").change(function () {
+            var name = $("input[name=name]").val();
+            var arr = name.split(' ');
+            var short = '';
+            if(arr[0] && arr[0] !=''){
+                short = arr[0];
+            }else{
+                return false;
+            }
+            var last = arr[arr.length-1];
+            if(arr.length != 1 && last && last !=''){
+                short = short + ' ' + last;
+            }
+            if(short !=''){
+                $("input[name=custom1]").val(short);
+            }
+        });
 
 		$("#new").click(function() {
 			stay_open = true;
