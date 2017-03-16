@@ -20,7 +20,7 @@
             <div class="form-group form-group-sm">
             <?php echo form_label('Parent', 'parent_id', array('class'=>'control-label col-xs-3')); ?>
                 <div class='col-xs-8'>
-		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>!empty($selected_parent_name) ? $selected_parent_name : 'None', 'placeholder'=>'None'));?>
+		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>!empty($selected_parent_name) ? $selected_parent_name : '', 'placeholder'=>'--No Parent--'));?>
 		</div>
                 <?php echo form_input(array('name'=>'parent_id', 'id'=>'parent_id', 'type'=>'hidden', 'value'=>$selected_parent_id)); ?>
 <!--			<div class='col-xs-4'>
@@ -61,6 +61,9 @@ $(document).ready(function()
                                 
                                 select: function (event, ui) {
                                     var v = ui.item.value;
+                                    if(!v || !$.isNumeric(v)){
+                                        var v = '';
+                                    }
                                      $('#parent_id').val(v);
                                     // update what is displayed in the textbox
                                     this.value = ui.item.label; 
@@ -71,15 +74,15 @@ $(document).ready(function()
                                 delay:10,
                                 appendTo: '.modal-content'});
 	
-	var fill_value = function(event, ui) {
-		event.preventDefault();
-		$("input[category_id='category_id']").val(ui.item.value);
-		$("input[name='name']").val(ui.item.label);
-		$("input[parent_id='parent_id']").val(ui.item.label);
-	};
+//	var fill_value = function(event, ui) {
+//		event.preventDefault();
+//		$("input[category_id='category_id']").val(ui.item.value);
+//		$("input[name='name']").val(ui.item.label);
+//		$("input[parent_id='parent_id']").val(ui.item.label);
+//	};
 
 //	var autocompleter = $("#person_name").autocomplete({
-//		source: '<?php echo site_url("customers/suggest"); ?>',
+//		source: '< ?php echo site_url("customers/suggest"); ?>',
 //    	minChars: 0,
 //    	delay: 15, 
 //       	cacheLength: 1,

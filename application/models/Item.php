@@ -310,9 +310,11 @@ class Item extends CI_Model
 	*/
 	public function get_multiple_info($item_ids, $location_id)
 	{
+		$this->db->select('items.*, suppliers.*, item_quantities.*, categories.name as category_name');
 		$this->db->from('items');
 		$this->db->join('suppliers', 'suppliers.person_id = items.supplier_id', 'left');
 		$this->db->join('item_quantities', 'item_quantities.item_id = items.item_id', 'left');
+		$this->db->join('item_categories as categories', 'categories.category_id = items.category_id', 'left');
 		$this->db->where('location_id', $location_id);
 		$this->db->where_in('items.item_id', $item_ids);
 
@@ -609,6 +611,7 @@ class Item extends CI_Model
 		$this->db->where('deleted', 0);
                 
                 if(!empty($exclude)){
+                   $suggestions[] = ['label' => '--No Parent--', 'category_id' => ''];
                    $this->db->where('category_id !=', $exclude); 
                 }
 		

@@ -643,57 +643,73 @@ class Items extends Secure_Controller
 				$resdata = array();
 				$check   = 0;
 				$chk = array();
-				
+				$item_number = array();
 				while(($itemdata = fgetcsv($handle)) !== FALSE)
 				{
+					
 					$resdata[] = $this->xss_clean($itemdata);
 					$chkcategory  = $this->Item->check_category($itemdata[2]);
 					$chkduplicate = $this->Item->item_number_exists($itemdata[0]);
+					
 					if(empty($itemdata[0]))
 					{
-						$chk['inumber']['ids'][] = $i;
+						$chk['inumber']['ids'][] = $i+1;
 						$chk['inumber']['msg']   = 'items_itemnumber_required';
+					}
+					if(in_array($itemdata[0], $item_number))
+					{
+						$chk['itemnumber']['ids'][] = $i+1;
+						$chk['itemnumber']['msg']   = 'item_duplicate_number';	
 					}
 					if($chkduplicate == 1)
 					{
-						$chk['number']['ids'][] = $i;
+						$chk['number']['ids'][] = $i+1;
 						$chk['number']['msg']   = 'item_duplicate_number';	
 					}	
 					if(empty($itemdata[1]))
 					{
-						$chk['name']['ids'][] = $i;
+						$chk['name']['ids'][] = $i+1;
 						$chk['name']['msg']   = 'items_itemname_required';
 					}
 					if(empty($itemdata[2]))
 					{
-						$chk['category_id']['ids'][] = $i;
+						$chk['category_id']['ids'][] = $i+1;
 						$chk['category_id']['msg']   = 'items_itemcategory_required';
 					}
 					if($chkcategory < 1)
 					{
-						$chk['category']['ids'][] = $i;
+						$chk['category']['ids'][] = $i+1;
 						$chk['category']['msg']   = 'items_category_not_exists';
 					}
 					if(!is_numeric($itemdata[4]))
 					{
-						$chk['cost']['ids'][] = $i;
+						$chk['cost']['ids'][] = $i+1;
 						$chk['cost']['msg']   = 'cost_price_numeric';
 					}
 					if(!is_numeric($itemdata[5]))
 					{
-						$chk['unit']['ids'][] = $i;
+						$chk['unit']['ids'][] = $i+1;
 						$chk['unit']['msg']   = 'unit_price_numeric';
 					}
 					if(!empty($itemdata[7]) && !is_numeric($itemdata[7]))
 					{
-						$chk['tax1']['ids'][] = $i;
+						$chk['tax1']['ids'][] = $i+1;
 						$chk['tax1']['msg']   = 'tax1_numeric';	 
 					}
 					if(!empty($itemdata[9]) && !is_numeric($itemdata[9]))
 					{
-						$chk['tax2']['ids'][] = $i;
+						$chk['tax2']['ids'][] = $i+1;
 						$chk['tax2']['msg']   = 'tax2_numeric';
 					}
+					if (!array_key_exists($itemdata[15],$this->lang->line('items_units'))) {
+					    $chk['custom2']['ids'][] = $i+1;
+						$chk['custom2']['msg']   = 'custom2_mismatch';
+					}
+					if (!array_key_exists($itemdata[16],$this->lang->line('items_units'))) {
+					    $chk['custom3']['ids'][] = $i+1;
+						$chk['custom3']['msg']   = 'custom3_mismatch';
+					}
+					array_push($item_number, $itemdata[0]);
 					$i++;
 				}
 				if(!empty($chk))
@@ -702,7 +718,7 @@ class Items extends Secure_Controller
 					foreach ($chk as $key => $value) {
 						if(!empty($value['ids']))
 						{	
-							$msg[] = $this->lang->line($value['msg']).implode(",",$value['ids']);
+							$msg[] = wordwrap(($this->lang->line($value['msg']).implode(", ",$value['ids'])),55, "<br />\n");
 						}
 					}
 					echo json_encode(array('success' => FALSE, 'message' => implode("<br>",$msg)));
