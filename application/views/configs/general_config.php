@@ -145,6 +145,7 @@
 						'name' => 'custom1_name',
 						'id' => 'custom1_name',
 						'class' => 'form-control input-sm',
+						'readonly'=>'readonly',
 						'value'=>$this->config->item('custom1_name'))); ?>
 				</div>
 			</div>
@@ -156,6 +157,7 @@
 						'name' => 'custom2_name',
 						'id' => 'custom2_name',
 						'class' => 'form-control input-sm',
+						'readonly'=>'readonly',
 						'value'=>$this->config->item('custom2_name'))); ?>
 				</div>
 			</div>
@@ -167,6 +169,7 @@
 						'name' => 'custom3_name',
 						'id' => 'custom3_name',
 						'class' => 'form-control input-sm',
+						'readonly'=>'readonly',
 						'value'=>$this->config->item('custom3_name'))); ?>
 				</div>
 			</div>
