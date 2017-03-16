@@ -611,6 +611,7 @@ class Item extends CI_Model
 		$this->db->where('deleted', 0);
                 
                 if(!empty($exclude)){
+                   $suggestions[] = ['label' => '--No Parent--', 'category_id' => ''];
                    $this->db->where('category_id !=', $exclude); 
                 }
 		
