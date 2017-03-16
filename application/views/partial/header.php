@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<base href="<?php echo base_url();?>" />
-	<title><?php echo $this->config->item('company') . ' | ' . $this->lang->line('common_powered_by') . ' OSPOS ' . $this->config->item('application_version') ?></title>
+	<title><?php echo $this->config->item('company') . ' | ' . $this->lang->line('common_powered_by') . ' UNIPOS ' . $this->config->item('application_version') ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="<?php echo 'dist/bootswatch/' . (empty($this->config->item('theme')) ? 'flatly' : $this->config->item('theme')) . '/bootstrap.min.css' ?>"/>
 
@@ -85,6 +85,12 @@
 		html {
 			overflow: auto;
 		}
+		.unishop-logo{
+			width:30%;
+		}
+		.navbar-brand{
+			float:none !important;
+		}
 	</style>
 </head>
 
@@ -116,8 +122,8 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-			
-					<a class="navbar-brand hidden-sm" href="<?php echo site_url(); ?>">OSPOS</a>
+					<img class="unishop-logo" src="<?php echo base_url("images/unishop-logo.png"); ?>">
+					<a class="navbar-brand hidden-sm" href="<?php echo site_url(); ?>">UNIPOS</a>
 				</div>
 
 				<div class="navbar-collapse collapse">

@@ -22,7 +22,7 @@ class Config extends Secure_Controller
 		$composer = FALSE;
 		$license = array();
 
-		$license[$i]['title'] = 'Open Source Point Of Sale ' . $this->config->item('application_version');
+		$license[$i]['title'] = 'UniShop Point Of Sale ' . $this->config->item('application_version');
 
 		if(file_exists('license/LICENSE'))
 		{
@@ -30,7 +30,7 @@ class Config extends Secure_Controller
 		}
 		else
 		{
-			$license[$i]['text'] = 'LICENSE file must be in OSPOS license directory. You are not allowed to use OSPOS application until the distribution copy of LICENSE file is present.';
+			$license[$i]['text'] = 'LICENSE file must be in UNIPOS license directory. You are not allowed to use OSPOS application until the distribution copy of LICENSE file is present.';
 		}
 
 		// read all the files in the dir license
