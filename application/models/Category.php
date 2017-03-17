@@ -28,7 +28,11 @@ class Category extends CI_Model
 	{
 		$this->db->select('item_categories.category_id, item_categories.name')
                          ->from('item_categories');
-                $this->db->where('item_categories.deleted', 0);
+                
+                if($category_id!='include_deleted'){
+                    $this->db->where('item_categories.deleted', 0);
+                }
+                
                 $this->db->where('item_categories.category_id !=', $category_id);
                 
                 $results  = $this->db->get()->result();

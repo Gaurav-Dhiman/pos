@@ -1,0 +1,22 @@
+category_id,parent_id,name,tags
+1,,Grocery,
+2,,Electronics,
+3,1,Dals & Pulses,"moong dal, rajma, cholle"
+4,,Snacks,"lays, kurkure"
+5,,Personel Care,
+6,5,mouth wash,listerine
+7,1,biscuits,"britannia, tiger, hide & seek"
+8,1,spices,"garam masala, coriander"
+9,1,Beverages,"coffee, cold drinks, juices"
+,,,
+,,,
+NOTES,,,
+1,Parent id is the category id  of parent category ,,
+,"EX: In above data Grocery category is parent of category biscuits, spices, dals & pulses.",,
+,,,
+2,tags  is used to make search convenient for user/ data entry operator,,
+,"EX: user  doesn’t know that mouth wash comes in which category, for that they just  need to enter mouthwash they ll get desired category according to mentioned tags.",,
+,,,
+3,Please create all parent category then there child category accordingly,,
+,,,
+4,Please remove all notes lines before importing csv,,
