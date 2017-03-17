@@ -108,7 +108,7 @@ $lang["items_itemnumber_required"] = "UPC/EAN/ISBN  is required at rows: ";
 $lang["tax1_numeric"] = "Tax 1 mismatch at rows: ";
 $lang["tax2_numeric"] = "Tax 2 mismatch at rows: ";
 $lang["measurement"] = "Measurement";
-$lang["items_units"] = ['' => 'Other', 'GRAMS' => 'Grams', 'MILILITRES' => 'ML'];
+$lang["items_units"] = ['' => 'Other', 'GRAMS' => 'Grams', 'MILILITRES' => 'ML','MILIMETERS' => 'MM'];
 $lang["measurement_mismatch"] = "Measurement mismatch at rows: ";
 $lang["itemunit_mismatch"] = "Item Unit mismatch at rows: ";
 $lang["measurement_required"] = "Measurement is required at rows: ";
