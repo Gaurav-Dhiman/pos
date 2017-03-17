@@ -116,9 +116,9 @@ class Categories extends Secure_Controller{
         /*
 	Gives search suggestions based on what is being searched for
 	*/
-	public function suggest_search()
+	public function suggest_search($exclude=null)
 	{
-		$suggestions = $this->xss_clean($this->Category->get_category_suggestions($this->input->post('term')));
+		$suggestions = $this->xss_clean($this->Category->get_category_suggestions($this->input->get('term'), $exclude));
 
 		echo json_encode($suggestions);
 	}

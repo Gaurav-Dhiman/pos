@@ -138,8 +138,10 @@ class Category extends CI_Model
                 }
 		
                 $this->db->distinct();
-		$this->db->like('name', $search);
-		$this->db->or_like('item_categories.tags', $search);
+                $this->db->group_start();
+                    $this->db->like('name', $search);
+                    $this->db->or_like('item_categories.tags', $search);
+                $this->db->group_end();    
 		$this->db->order_by('name', 'asc');
 		foreach($this->db->get()->result() as $row)
 		{
