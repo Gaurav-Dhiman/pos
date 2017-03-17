@@ -337,6 +337,7 @@ function get_categories_manage_table_headers()
 		array('category_id' => $CI->lang->line('common_id')),
 		array('name' => $CI->lang->line('common_name')),
 		array('parent_name' => $CI->lang->line('common_parent')),
+		array('tags' => $CI->lang->line('common_tags')),
 	);
 
 	return transform_headers($headers);
@@ -371,6 +372,7 @@ function get_category_data_row($category, $controller)
 		'category_id' => $category->category_id,
 		'name' => $category->name,
 		'parent_name' => !empty($category->parent_name) ? $category->parent_name : '---',
+		'tags' => !empty($category->tags) ? $category->tags : '-',
 		'edit' => anchor($controller_name."/view/$category->category_id", '<span class="glyphicon glyphicon-edit"></span>',
 			array('class'=>'modal-dlg', 'data-btn-submit' => $CI->lang->line('common_submit'), 'title'=>$CI->lang->line($controller_name.'_update'))
 		));

@@ -137,7 +137,7 @@ class Items extends Secure_Controller
 	*/
 	public function suggest_category($exclude=null)
 	{
-		$suggestions = $this->xss_clean($this->Item->get_category_suggestions($this->input->get('term'), $exclude));
+		$suggestions = $this->xss_clean($this->Category->get_category_suggestions($this->input->get('term'), $exclude));
 
 		echo json_encode($suggestions);
 	}

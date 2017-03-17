@@ -603,29 +603,6 @@ class Item extends CI_Model
 		return $suggestions;
 	}
 
-	public function get_category_suggestions($search, $exclude=null)
-	{
-                $suggestions = array();
-                $this->db->select('category_id, name');
-		$this->db->from('item_categories');
-		$this->db->where('deleted', 0);
-                
-                if(!empty($exclude)){
-                   $suggestions[] = ['label' => '--No Parent--', 'category_id' => ''];
-                   $this->db->where('category_id !=', $exclude); 
-                }
-		
-                $this->db->distinct();
-		$this->db->like('name', $search);
-		$this->db->order_by('name', 'asc');
-		foreach($this->db->get()->result() as $row)
-		{
-			$suggestions[] = array('label' => $row->name, 'category_id' => $row->category_id);
-		}
-
-		return $suggestions;
-	}
-
 	public function get_location_suggestions($search)
 	{
 		$suggestions = array();
@@ -661,16 +638,16 @@ class Item extends CI_Model
 		return $suggestions;
 	}
 
-	public function get_categories()
-	{
-		$this->db->select('category');
-		$this->db->from('items');
-		$this->db->where('deleted', 0);
-		$this->db->distinct();
-		$this->db->order_by('category', 'asc');
-
-		return $this->db->get();
-	}
+//	public function get_categories()
+//	{
+//		$this->db->select('category');
+//		$this->db->from('items');
+//		$this->db->where('deleted', 0);
+//		$this->db->distinct();
+//		$this->db->order_by('category', 'asc');
+//
+//		return $this->db->get();
+//	}
 
 	/*
 	 * changes the cost price of a given item
@@ -705,18 +682,6 @@ class Item extends CI_Model
 		$data = array('cost_price' => $average_price);
 
 		return $this->save($data, $item_id);
-	}
-	/*
-	 * Check Category exists or not
-	 */
-	public function check_category($id)
-	{
-		$this->db->select('category_id');
-		$this->db->from('item_categories');
-		$this->db->where('category_id', $id);
-		$query 		= $this->db->get();
-		$rowcount 	= $query->num_rows();
-		return $rowcount;
 	}
 }
 ?>

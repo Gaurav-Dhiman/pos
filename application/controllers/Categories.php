@@ -50,6 +50,8 @@ class Categories extends Secure_Controller{
                 $data['selected_parent_id'] = ($category_id > 0 && isset($category_info->parent_id)) ? $category_info->parent_id : '';
                 $data['selected_parent_name'] = ($category_id > 0 && isset($category_info->parent_name)) ? $category_info->parent_name : '';
                 
+                $data['selected_tags'] = ($category_id > 0 && isset($category_info->tags)) ? $category_info->tags : '';
+                
 		$data['category_id'] = $category_id;
                 
              //   $data['categories_list'] = [''=>'None'] + $this->Category->get_categories($category_id);
@@ -64,6 +66,7 @@ class Categories extends Secure_Controller{
             $category_data = array(
                     'name' => $this->input->post('name'),
                     'parent_id' => !empty($this->input->post('parent_id')) ? $this->input->post('parent_id') : null,
+                    'tags' => !empty($this->input->post('tags')) ? $this->input->post('tags') : null,
             );
 
             if($this->Category->save($category_data, $category_id))
@@ -115,7 +118,7 @@ class Categories extends Secure_Controller{
 	*/
 	public function suggest_search()
 	{
-		$suggestions = $this->xss_clean($this->Category->get_search_suggestions($this->input->post('term')));
+		$suggestions = $this->xss_clean($this->Category->get_category_suggestions($this->input->post('term')));
 
 		echo json_encode($suggestions);
 	}

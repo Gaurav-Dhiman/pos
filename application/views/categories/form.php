@@ -18,6 +18,19 @@
 			</div>
 		</div>
             <div class="form-group form-group-sm">
+			<?php echo form_label('Tags', 'tags', array('class'=>'control-label col-xs-3')); ?>
+			<div class='col-xs-8'>
+				<?php echo form_input(array(
+						'name'=>'tags',
+						'id'=>'tags',
+						'class'=>'form-control input-sm',
+						'value'=>$selected_tags)
+						);?>
+                            
+				<?php echo form_hidden('category_id', $category_id);?>
+			</div>
+		</div>
+            <div class="form-group form-group-sm">
             <?php echo form_label('Parent', 'parent_id', array('class'=>'control-label col-xs-3')); ?>
                 <div class='col-xs-8'>
 		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>!empty($selected_parent_name) ? $selected_parent_name : '', 'placeholder'=>'--No Parent--'));?>
@@ -45,7 +58,7 @@ $(document).ready(function()
         $("#category_name").autocomplete({
                                 source:function (request, response) {
 					$.ajax({
-						url: "<?php echo site_url('items/suggest_category/'.$category_id);?>",
+						url: "<?php echo site_url('categories/suggest_search/'.$category_id);?>",
 						dataType: "json",
                                                 data: { term: $("#category_name").val() },
 						success: function(data) {
