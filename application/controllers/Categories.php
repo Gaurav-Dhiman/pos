@@ -199,7 +199,7 @@ class Categories extends Secure_Controller{
                             $msg = array();
                             foreach ($chk as $key => $value) {
                                     if(!empty($value['ids'])){	
-                                        $msg[] = wordwrap(($this->lang->line($value['msg']).implode(", ",$value['ids'])),55, "<br />\n");
+                                        $msg[] = wordwrap(($this->lang->line($value['msg'])." ".$this->lang->line('common_at_rows').implode(", ",$value['ids'])),55, "<br />\n");
                                     }
                             }
                             echo json_encode(array('success' => FALSE, 'message' => implode("<br>",$msg)));

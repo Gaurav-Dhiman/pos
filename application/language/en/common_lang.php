@@ -67,3 +67,4 @@ $lang["common_export_excel_no"] = "No";
 $lang["common_required"] = "Required";
 $lang["common_id"] = "Id";
 $lang["common_tags"] = "Tags";
+$lang["common_at_rows"] = "at rows: ";

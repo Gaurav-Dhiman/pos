@@ -661,7 +661,7 @@ class Items extends Secure_Controller
 					if(empty($itemdata[0]))
 					{
 						$chk['inumber']['ids'][] = $j;
-						$chk['inumber']['msg']   = 'items_itemnumber_required';
+						$chk['inumber']['msg']   = 'items_number_required';
 					}
 					if(in_array($itemdata[0], $item_barcode))
 					{
@@ -686,30 +686,30 @@ class Items extends Secure_Controller
 					if(empty($itemdata[4]) || !is_numeric($itemdata[4]))
 					{
 						$chk['cost']['ids'][] = $j;
-						$chk['cost']['msg']   = 'cost_price_numeric';
+						$chk['cost']['msg']   = 'items_cost_price_numeric';
 					}
 					if(empty($itemdata[5]) || !is_numeric($itemdata[5]))
 					{
 						$chk['unit']['ids'][] = $j;
-						$chk['unit']['msg']   = 'unit_price_numeric';
+						$chk['unit']['msg']   = 'items_unit_price_numeric';
 					}
 					if(!empty($itemdata[7]) && !is_numeric($itemdata[7]))
 					{
 						$chk['tax1']['ids'][] = $j;
-						$chk['tax1']['msg']   = 'tax1_numeric';	 
+						$chk['tax1']['msg']   = 'items_tax1_numeric';	 
 					}
 					if(!empty($itemdata[9]) && !is_numeric($itemdata[9]))
 					{
 						$chk['tax2']['ids'][] = $j;
-						$chk['tax2']['msg']   = 'tax2_numeric';
+						$chk['tax2']['msg']   = 'items_tax2_numeric';
 					}
 					if (!is_numeric($itemdata[15])) {
 					    $chk['emptycustom2']['ids'][] = $j;
-						$chk['emptycustom2']['msg']   = 'measurement_mismatch';
+						$chk['emptycustom2']['msg']   = 'items_measurement_mismatch';
 					}
 					if (!array_key_exists($itemdata[16],$this->lang->line('items_units'))) {
 					    $chk['custom3']['ids'][] = $j;
-						$chk['custom3']['msg']   = 'itemunit_mismatch';
+						$chk['custom3']['msg']   = 'items_itemunit_mismatch';
 					}
 					array_push($item_barcode, $itemdata[0]);
 					$j++;
@@ -720,7 +720,7 @@ class Items extends Secure_Controller
 					foreach ($chk as $key => $value) {
 						if(!empty($value['ids']))
 						{	
-							$msg[] = wordwrap(($this->lang->line($value['msg']).implode(", ",$value['ids'])),55, "<br />\n");
+							$msg[] = wordwrap(($this->lang->line($value['msg'])." ".$this->lang->line('common_at_rows').implode(", ",$value['ids'])),55, "<br />\n");
 						}
 					}
 					echo json_encode(array('success' => FALSE, 'message' => implode("<br>",$msg)));
