@@ -32,15 +32,11 @@
 		</div>
             <div class="form-group form-group-sm">
             <?php echo form_label('Parent', 'parent_id', array('class'=>'control-label col-xs-3')); ?>
-<<<<<<< Updated upstream
                 <div class='col-xs-8'>
 		    <?php echo form_input(array('name'=>'category_name', 'id'=>'category_name', 'class'=>'form-control input-sm', 'value'=>!empty($selected_parent_name) ? $selected_parent_name : '', 'placeholder'=>'--No Parent--'));?>
 		</div>
                 <?php echo form_input(array('name'=>'parent_id', 'id'=>'parent_id', 'type'=>'hidden', 'value'=>$selected_parent_id)); ?>
-<!--			<div class='col-xs-4'>
-=======
 			<div class='col-xs-4'>
->>>>>>> Stashed changes
                             
                             <?php echo form_dropdown('parent_id', $categories_list, $selected_parent_id, array('id'=>'parent_id', 'class'=>'form-control')); ?>
 			</div>
@@ -58,7 +54,6 @@ $(document).ready(function()
 			$("input[name='category_id']").val('');
 		}
 	});
-<<<<<<< Updated upstream
         
         $("#category_name").autocomplete({
                                 source:function (request, response) {
@@ -91,8 +86,6 @@ $(document).ready(function()
                                 //source: "< ?php echo site_url('items/suggest_category');?>",
                                 delay:10,
                                 appendTo: '.modal-content'});
-=======
->>>>>>> Stashed changes
 	
 //	var fill_value = function(event, ui) {
 //		event.preventDefault();
