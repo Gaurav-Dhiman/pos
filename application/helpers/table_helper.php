@@ -347,6 +347,19 @@ function dd($data){
     echo '<pre>'; print_r($data); echo '</pre>'; die;
 }
 
+function whole_int($val){
+    $val = strval($val);
+    $val = str_replace('-', '', $val);
+
+    if (ctype_digit($val)){
+        if ($val === (string)0)
+            return true;
+        elseif(ltrim($val, '0') === $val)
+            return true;
+    }
+    return false;
+}
+
 function get_giftcard_data_row($giftcard, $controller)
 {
 	$CI =& get_instance();
