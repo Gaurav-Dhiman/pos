@@ -25,7 +25,7 @@ class Items extends Secure_Controller
 			'no_description' => $this->lang->line('items_no_description_items'),
 			'search_custom' => $this->lang->line('items_search_custom_items'),
 			'is_deleted' => $this->lang->line('items_is_deleted'));
-
+		
 		$this->load->view('items/manage', $data);
 	}
 
@@ -637,80 +637,82 @@ class Items extends Secure_Controller
 			{
 				// Skip the first row as it's the table description
 				fgetcsv($handle);
-				$i = 1;
+				$j = 2;
 				
 				$failCodes = array();
 				$resdata = array();
 				$check   = 0;
 				$chk = array();
-				$item_number = array();
+				$item_barcode = array();
+				$categories = $this->Category->get_categories('include_deleted');
+				$categoriesExits = array();
+                        
+                $categoriesExits = $categoriesExits + array_keys($categories);
 				while(($itemdata = fgetcsv($handle)) !== FALSE)
 				{
 					
 					$resdata[] = $this->xss_clean($itemdata);
-					$chkcategory  = $this->Item->check_category($itemdata[2]);
 					$chkduplicate = $this->Item->item_number_exists($itemdata[0]);
 					
+					if(!in_array($itemdata[2], $categoriesExits)){
+                        $chk['category']['ids'][] = $j;
+                        $chk['category']['msg'] = 'items_category_not_exists';	
+                    }
 					if(empty($itemdata[0]))
 					{
-						$chk['inumber']['ids'][] = $i+1;
+						$chk['inumber']['ids'][] = $j;
 						$chk['inumber']['msg']   = 'items_itemnumber_required';
 					}
-					if(in_array($itemdata[0], $item_number))
+					if(in_array($itemdata[0], $item_barcode))
 					{
-						$chk['itemnumber']['ids'][] = $i+1;
+						$chk['itemnumber']['ids'][] = $j;
 						$chk['itemnumber']['msg']   = 'item_duplicate_number';	
 					}
 					if($chkduplicate == 1)
 					{
-						$chk['number']['ids'][] = $i+1;
+						$chk['number']['ids'][] = $j;
 						$chk['number']['msg']   = 'item_duplicate_number';	
 					}	
 					if(empty($itemdata[1]))
 					{
-						$chk['name']['ids'][] = $i+1;
+						$chk['name']['ids'][] = $j;
 						$chk['name']['msg']   = 'items_itemname_required';
 					}
 					if(empty($itemdata[2]))
 					{
-						$chk['category_id']['ids'][] = $i+1;
+						$chk['category_id']['ids'][] = $j;
 						$chk['category_id']['msg']   = 'items_itemcategory_required';
 					}
-					if($chkcategory < 1)
+					if(empty($itemdata[4]) || !is_numeric($itemdata[4]))
 					{
-						$chk['category']['ids'][] = $i+1;
-						$chk['category']['msg']   = 'items_category_not_exists';
-					}
-					if(!is_numeric($itemdata[4]))
-					{
-						$chk['cost']['ids'][] = $i+1;
+						$chk['cost']['ids'][] = $j;
 						$chk['cost']['msg']   = 'cost_price_numeric';
 					}
-					if(!is_numeric($itemdata[5]))
+					if(empty($itemdata[5]) || !is_numeric($itemdata[5]))
 					{
-						$chk['unit']['ids'][] = $i+1;
+						$chk['unit']['ids'][] = $j;
 						$chk['unit']['msg']   = 'unit_price_numeric';
 					}
 					if(!empty($itemdata[7]) && !is_numeric($itemdata[7]))
 					{
-						$chk['tax1']['ids'][] = $i+1;
+						$chk['tax1']['ids'][] = $j;
 						$chk['tax1']['msg']   = 'tax1_numeric';	 
 					}
 					if(!empty($itemdata[9]) && !is_numeric($itemdata[9]))
 					{
-						$chk['tax2']['ids'][] = $i+1;
+						$chk['tax2']['ids'][] = $j;
 						$chk['tax2']['msg']   = 'tax2_numeric';
 					}
 					if (!is_numeric($itemdata[15])) {
-					    $chk['emptycustom2']['ids'][] = $i+1;
+					    $chk['emptycustom2']['ids'][] = $j;
 						$chk['emptycustom2']['msg']   = 'measurement_mismatch';
 					}
 					if (!array_key_exists($itemdata[16],$this->lang->line('items_units'))) {
-					    $chk['custom3']['ids'][] = $i+1;
+					    $chk['custom3']['ids'][] = $j;
 						$chk['custom3']['msg']   = 'itemunit_mismatch';
 					}
-					array_push($item_number, $itemdata[0]);
-					$i++;
+					array_push($item_barcode, $itemdata[0]);
+					$j++;
 				}
 				if(!empty($chk))
 				{
@@ -724,6 +726,8 @@ class Items extends Secure_Controller
 					echo json_encode(array('success' => FALSE, 'message' => implode("<br>",$msg)));
 					exit;
 				}
+
+				$i = 2;
 				foreach ($resdata as $data) {
 				
 					// XSS file data sanity check
