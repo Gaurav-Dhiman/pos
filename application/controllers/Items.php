@@ -638,7 +638,6 @@ class Items extends Secure_Controller
 				// Skip the first row as it's the table description
 				fgetcsv($handle);
 				$j = 2;
-				
 				$failCodes = array();
 				$resdata = array();
 				$check   = 0;

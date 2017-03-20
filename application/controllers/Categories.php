@@ -169,7 +169,7 @@ class Categories extends Secure_Controller{
 
                             $resdata[] = $this->xss_clean($categorydata);
                            
-                            if(empty($categorydata[0]) || $categorydata[0] < 0 || !is_numeric($categorydata[0]) || !is_int((int)$categorydata[0])){
+                            if(empty($categorydata[0]) || $categorydata[0] < 0 || !whole_int($categorydata[0])){
                                 $chk['category_id']['ids'][] = $i;
                                 $chk['category_id']['msg']   = 'categories_categoryid_required';
                             }elseif(in_array($categorydata[0], $categoriesExits)){
@@ -177,7 +177,7 @@ class Categories extends Secure_Controller{
                                 $chk['category_id']['msg'] = 'categories_categoryid_duplicate';	
                             }
                             
-                            if(!empty($categorydata[1]) && (!is_numeric($categorydata[1]) || !is_int((int)$categorydata[1]))){
+                            if(!empty($categorydata[1]) && (!whole_int((int)$categorydata[1]))){
                                 $chk['parent_id']['ids'][] = $i;
                                 $chk['parent_id']['msg']   = 'categories_parentid_integer_required';
                             }elseif(!empty($categorydata[1]) && !in_array($categorydata[1], $categoriesExits)){
